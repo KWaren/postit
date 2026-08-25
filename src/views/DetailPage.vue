@@ -1,9 +1,7 @@
 <template>
   <div class=" flex items-center justify-center">
     <div class="loader mt-40" v-if="load"></div>
-    <div v-else-if="erreur">
-      {{ erreur }}
-    </div>
+    <ErrorState v-else-if="erreur" :message="erreur" />
     <div v-else class="flex flex-col flex-wrap bg-blue-200 min-h-[60vh] my-15 w-[80vw] p-8 shadow rounded-xl ">
       <div class="flex w-full">
         <h2 class="break-all text-3xl font-bold ">{{ title }}</h2>
@@ -18,7 +16,7 @@
           Supprimer
         </button>
       </div>
-      <p v-if="deleteErreur" class="mt-4 text-red-600">{{ deleteErreur }}</p>
+      <ErrorAlert :messages="deleteErreur ? [deleteErreur] : []" />
 
     </div>
   </div>
@@ -28,6 +26,8 @@
 import { ref, onMounted } from 'vue';
 import { usePostIt } from "@/store/postIt";
 import { useRouter, useRoute, RouterLink } from 'vue-router';
+import ErrorState from '@/components/ErrorState.vue';
+import ErrorAlert from '@/components/ErrorAlert.vue';
 const route = useRoute()
 const router = useRouter()
 const store = usePostIt();

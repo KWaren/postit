@@ -4,9 +4,7 @@
     <form class="flex flex-col min-h-[50vh] px-8 py-6 my-16 w-[70vw] shadow-lg rounded-lg bg-white" @submit.prevent="add"
       method="post">
              <h2 class="text-4xl font-bold text-blue-900 pb-1">Créer un post it</h2>
-      <div v-for="erreur in erreurs" class="w-full my-2 flex justify-center ">
-        <p class="w-[80%] py-2 text-center border text-red-600 rounded-lg bg-red-300 ">{{ erreur }}</p>
-      </div>
+      <ErrorAlert :messages="erreurs" />
 
       <input
         class=" my-2 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -27,6 +25,7 @@ const content = ref('')
 
 import { usePostIt } from "@/store/localPostIt";
 import { useRouter } from 'vue-router';
+import ErrorAlert from '@/components/ErrorAlert.vue';
 const router = useRouter();
 const store = usePostIt();
 function add() {

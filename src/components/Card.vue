@@ -1,9 +1,7 @@
 <template>
     <section class="h-full my-6 flex flex-wrap justify-center items-center">
         <div class="loader" v-if="load"></div>
-        <div v-else-if="erreur">
-            {{ erreur }}
-        </div>
+        <ErrorState v-else-if="erreur" :message="erreur" />
         <RouterLink v-else :to="{ name: 'notes.show', params: { _id: postIt._id } }"
             class="card bg-blue-300 hover:shadow-xl rounded-xl hover:bg-blue-400 text-gray-800 px-5 mx-[1vw] my-3 w-[90vw] sm:w-[45vw] lg:w-[31vw] h-[26vh] transition duration-300 cursor-pointer"
             v-for="postIt in postIts">
@@ -23,6 +21,7 @@
     </section>
 </template>
 <script setup>
+import ErrorState from '@/components/ErrorState.vue'
 defineProps({
     load: Boolean,
     postIts: Array,
