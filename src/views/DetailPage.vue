@@ -18,6 +18,7 @@
           Supprimer
         </button>
       </div>
+      <p v-if="deleteErreur" class="mt-4 text-red-600">{{ deleteErreur }}</p>
 
     </div>
   </div>
@@ -32,28 +33,27 @@ const router = useRouter()
 const store = usePostIt();
 const load = ref(true)
 const erreur = ref(null)
+const deleteErreur = ref(null)
 const title = ref('')
 const content = ref('')
 const date = ref('')
-// console.log(route.params._id);
 
 onMounted(async () => {
   const postIt = await store.getOnePostIt(route.params._id)
   if (postIt.success) {
-    console.log("Post-it récupéré :" + postIt.data)
     title.value = postIt.data.title
     content.value = postIt.data.content
     date.value = postIt.data.updatedAt
     load.value = false
   } else {
-    console.log("Échec :", postIt.error);
     erreur.value = "Impossible de charger ce Post-It.";
     load.value = false;
-
   }
 })
-function deleteOne() {
-  store.deleteOne(route.params._id);
-
+async function deleteOne() {
+  const result = await store.deleteOne(route.params._id);
+  if (!result.success) {
+    deleteErreur.value = "Impossible de supprimer ce post-it, veuillez réessayer.";
+  }
 }
 </script>

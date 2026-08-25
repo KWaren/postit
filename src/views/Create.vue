@@ -29,25 +29,25 @@ import { usePostIt } from "@/store/postIt";
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const store = usePostIt();
-function add() {
+async function add() {
+  erreurs.value = [];
   if (title.value === null || title.value.trim() == "") {
     erreurs.value.push("Titre incorrect");
-
   }
   if (content.value === null || content.value.trim() == "") {
     erreurs.value.push("Description incorrect");
-    console.log(erreurs.value);
   }
   if (erreurs.value.length === 0) {
-
-    store.addPostIt({ title: title.value, content: content.value });
+    const result = await store.addPostIt({ title: title.value, content: content.value });
+    if (!result.success) {
+      erreurs.value.push("Impossible d'enregistrer ce post-it, veuillez réessayer.");
+    }
   }
-  else {
+  if (erreurs.value.length > 0) {
     setTimeout(removeError, 5000);
     function removeError() {
       erreurs.value = []
     }
   }
-
 }
 </script>

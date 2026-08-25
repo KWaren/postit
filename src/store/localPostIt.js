@@ -2,7 +2,7 @@ import router from "@/router";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-export const usePostIt = defineStore("postIt", () => {
+export const usePostIt = defineStore("localPostIt", () => {
   const postIts = ref([]);
 
   function addPostIt(postIt) {
@@ -25,8 +25,7 @@ export const usePostIt = defineStore("postIt", () => {
 
   function getOnePostIt(_id) {
     const data = postIts.value.find((a) => a._id == _id);
-    // console.log(postIts.value.);
-    
+
     if (data) {
       return { success: true, data }
     }else{

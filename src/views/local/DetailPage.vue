@@ -35,23 +35,18 @@ const erreur = ref(null)
 const title = ref('')
 const content = ref('')
 const date = ref('')
-// console.log(route.params._id);
 
 onMounted(() => {
   const postIt = store.getOnePostIt(route.params._id)
-  console.log(postIt.success);
 
   if (postIt.success) {
-    console.log("Post-it récupéré :" + postIt.data)
     title.value = postIt.data.title
     content.value = postIt.data.content
     date.value = postIt.data.updatedAt
     load.value = false
   } else {
-    console.log("Échec :", postIt.error);
     erreur.value = "Impossible de charger ce Post-It.";
     load.value = false;
-
   }
 })
 function deleteOne() {

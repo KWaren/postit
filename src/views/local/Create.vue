@@ -30,13 +30,13 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const store = usePostIt();
 function add() {
+  erreurs.value = [];
   if (title.value === null || title.value.trim() == "") {
     erreurs.value.push("Titre incorrect");
 
   }
   if (content.value === null || content.value.trim() == "") {
     erreurs.value.push("Description incorrect");
-    console.log(erreurs.value);
   }
   if (erreurs.value.length === 0) {
 

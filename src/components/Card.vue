@@ -25,6 +25,7 @@
 <script setup>
 defineProps({
     load: Boolean,
-    postIts: Array
+    postIts: Array,
+    erreur: String
 })
 </script>

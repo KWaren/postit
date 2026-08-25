@@ -38,39 +38,34 @@ const date = ref('')
 onMounted(async () => {
   const postIt = await store.getOnePostIt(route.params._id);
   if (postIt.success) {
-    console.log("Post-it récupéré :" + postIt.data)
     title.value = postIt.data.title
     content.value = postIt.data.content[0]
     date.value = postIt.data.updatedAt
     load.value = false
   } else {
-    console.log("Échec :", postIt.error);
     erreur.value = "Impossible de charger ce Post-It.";
     load.value = false;
-
   }
 });
-function update() {
-  // console.log(route.params._id);
-  // console.log(c.value);
-if (title.value === null || title.value.trim() == "") {
+async function update() {
+  erreurs.value = [];
+  if (title.value === null || title.value.trim() == "") {
     erreurs.value.push("Titre incorrect");
-
   }
   if (content.value === null || content.value.trim() == "") {
     erreurs.value.push("Description incorrect");
-    console.log(erreurs.value);
   }
   if (erreurs.value.length === 0) {
-
-    store.updatePostIt(route.params._id, { title: title.value, content: content.value })
+    const result = await store.updatePostIt(route.params._id, { title: title.value, content: content.value })
+    if (!result.success) {
+      erreurs.value.push("Impossible de mettre à jour ce post-it, veuillez réessayer.");
+    }
   }
-  else {
+  if (erreurs.value.length > 0) {
     setTimeout(removeError, 5000);
     function removeError() {
       erreurs.value = []
     }
   }
-
 }
 </script>

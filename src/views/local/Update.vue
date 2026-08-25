@@ -4,7 +4,7 @@
     <div v-else-if="erreur">
       {{ erreur }}
     </div>
-    <form class="flex flex-col min-h-[50vh] px-8 py-6 my-15 w-[60vw] shadow-lg rounded-lg bg-white " @submit.prevent="update"
+    <form v-else class="flex flex-col min-h-[50vh] px-8 py-6 my-15 w-[60vw] shadow-lg rounded-lg bg-white " @submit.prevent="update"
       method="post">
             <h2 class="text-4xl font-bold text-blue-900 pb-1">Modifier ce post it</h2>
 
@@ -38,28 +38,24 @@ const date = ref('')
 onMounted(async () => {
   const postIt = await store.getOnePostIt(route.params._id);
   if (postIt.success) {
-    // console.log("Post-it récupéré :" + postIt.data)
     title.value = postIt.data.title
     content.value = postIt.data.content
     date.value = postIt.data.updatedAt
     load.value = false
   } else {
-    console.log("Échec :", postIt.error);
     erreur.value = "Impossible de charger ce Post-It.";
     load.value = false;
 
   }
 });
 function update() {
-  // console.log(route.params._id);
-  // console.log(c.value);
+  erreurs.value = [];
   if (title.value === null || title.value.trim() == "") {
     erreurs.value.push("Titre incorrect");
-    
+
   }
    if (content.value === null || content.value.trim() == "") {
     erreurs.value.push("Description incorrect");
-    console.log(erreurs.value);
   }
   if(erreurs.value.length===0){
 
